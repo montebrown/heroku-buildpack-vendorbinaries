@@ -19,6 +19,9 @@ while read url; do
   if [ -n "$url" ]; then # incase ensure_newline_at_eof_on_save is enabled
     echo Vendoring $url | indent
 
+    echo Current directory: | indent
+    echo $PWD
+
     extension="${url##*.}" # http://stackoverflow.com/q/965053
     flag="-z" # by default use gz
     if [ "$extension" == "xz" ]; then flag="--xz"
@@ -26,6 +29,7 @@ while read url; do
     elif [ "$extension" == "tar" ]; then flag=""  # no compression
     fi
 
-    curl -L --silent $url | tar x $flag
+    #curl -L --silent $url | tar x $flag
+    curl -L $url | tar x $flag
   fi
 done < .vendor_urls
